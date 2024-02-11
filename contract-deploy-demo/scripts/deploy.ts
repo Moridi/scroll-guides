@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   // Get the contract factory for the Ranker contract
-  const Ranker = await ethers.getContractFactory("Ranker");
+  const Ranker = await ethers.getContractFactory("CosineRanker");
 
   // Deploy the contract without any constructor arguments
   const ranker = await Ranker.deploy();
