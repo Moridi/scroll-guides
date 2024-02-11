@@ -9,7 +9,7 @@ type TweetStruct = {
 
 describe("Ranker", function () {
   async function deployRankerFixture() {
-    const Ranker = await ethers.getContractFactory("Ranker");
+    const Ranker = await ethers.getContractFactory("CategoryRanker");
     const ranker = await Ranker.deploy();
     await ranker.deployed();
     return { ranker };
