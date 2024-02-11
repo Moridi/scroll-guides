@@ -1,19 +1,17 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  // Get the contract factory for the Ranker contract
+  const Ranker = await ethers.getContractFactory("Ranker");
 
-  const lockedAmount = ethers.utils.parseEther("0.00000001");
+  // Deploy the contract without any constructor arguments
+  const ranker = await Ranker.deploy();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  // Wait for the contract to be deployed
+  await ranker.deployed();
 
-  await lock.deployed();
-
-  console.log(`Lock with 0.00000001 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
-  console.log(`Block explorer URL: https://blockscout.scroll.io/address/${lock.address}`);
+  console.log(`Ranker deployed to ${ranker.address}`);
+  console.log(`Block explorer URL: https://sepolia.scrollscan.com/address/${ranker.address}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
