@@ -2,25 +2,30 @@
 pragma solidity ^0.8.9;
 
 contract CategoryRanker {
-    enum Category { Category1, Category2, Category3 }
+    event RankedTweets(uint256[] rankedTweetIds);
+    
+    enum Category { 
+        News, Personal, Humor, Promotions,
+        Celebrity, Sports, Science, Activism, Art
+     }
 
     struct Tweet {
         uint256 id;
         Category category;
     }
-
+    
     // Function to rank tweets based on user's tweet categories and select 'k' tweets
     function rankTweets(Tweet[] calldata userTweets,
                         Tweet[] calldata currentTweets,
-                        uint k) external pure returns (uint256[] memory) {
+                        uint k) external {
         Category mostUsedCategory = findMostUsedCategory(userTweets);
         uint256[] memory selectedTweetIds = filterAndSelectTweets(currentTweets, mostUsedCategory, k);
-        return selectedTweetIds;
+        emit RankedTweets(selectedTweetIds);
     }
 
     // Simplified function to find the most used category
     function findMostUsedCategory(Tweet[] calldata tweets) private pure returns (Category) {
-        uint[] memory count = new uint[](uint(Category.Category3) + 1); // Assuming Category3 is the last in the enum
+        uint[] memory count = new uint[](uint(Category.Art) + 1); // Assuming Art is the last in the enum
         for (uint i = 0; i < tweets.length; i++) {
             uint index = uint(tweets[i].category);
             count[index]++;
